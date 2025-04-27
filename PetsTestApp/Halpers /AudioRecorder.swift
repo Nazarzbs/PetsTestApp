@@ -15,37 +15,36 @@ class AudioRecorder {
     var isRecording = false               // Tracks recording state
     var showPermissionAlert = false       // Controls whether to show permission alert
     
-    // Main function to initiate recording process
     func startRecording() {
-        // Check current microphone permission status
-        let permission = AVAudioSession.sharedInstance().recordPermission
+        // Check the current permission status for recording audio
+        let permission = AVAudioApplication.shared.recordPermission
         
         switch permission {
         case .granted:
-            // Permission already granted, start recording immediately
+            // If permission is granted, start the actual recording process
             startActualRecording()
             
         case .denied:
-            // User previously denied permission, show alert to direct to settings
+            // If permission is denied, show an alert to inform the user
             showPermissionAlert = true
             
         case .undetermined:
-            // Permission not yet requested, ask for permission
-            AVAudioSession.sharedInstance().requestRecordPermission { allowed in
-                // Move back to main thread since UI updates must happen there
+            // If permission has not been determined, request permission from the user
+            AVAudioApplication.requestRecordPermission { allowed in
+                // On permission request completion, handle the result on the main thread
                 DispatchQueue.main.async {
                     if allowed {
-                        // User granted permission, start recording
+                        // If permission is granted, start the actual recording process
                         self.startActualRecording()
                     } else {
-                        // User denied permission, show alert
+                        // If permission is denied, show an alert to inform the user
                         self.showPermissionAlert = true
                     }
                 }
             }
             
         @unknown default:
-            // Handle any future permission states Apple might add
+            // In case of an unknown permission status, show an alert
             showPermissionAlert = true
         }
     }
