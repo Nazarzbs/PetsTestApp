@@ -77,7 +77,7 @@ struct TranslatorView: View {
                                 Button(action: {
                                     // Start recording
                                     recorder.startRecording()
-                                    if !recorder.showPermissionAlert {
+                                    if AVAudioApplication.shared.recordPermission == .granted {
                                         isRecording = true
                                         
                                         // Simulate a translation process after 4 seconds of recording

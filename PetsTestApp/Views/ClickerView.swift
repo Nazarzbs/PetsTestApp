@@ -4,25 +4,8 @@ import StoreKit
 struct ClickerView: View {
     var body: some View {
         NavigationStack {
-            
-            VStack(spacing: 24) { // Space between title and buttons
-                Text("Settings")
-                    .font(.system(size: 34, weight: .bold))
-                    .padding(.top, 40)
-                
-                VStack(spacing: 12) { // Gap between buttons
-                    SettingRow(title: "Rate Us")
-                    SettingRow(title: "Share App")
-                    SettingRow(title: "Contact Us")
-                    SettingRow(title: "Restore Purchases")
-                    SettingRow(title: "Privacy Policy")
-                    SettingRow(title: "Terms of Use")
-                }
-                .padding(.horizontal, 20)
-                
-                Spacer()
-            }
-            .background(
+            ZStack {
+                // Background gradient
                 LinearGradient(
                     colors: [
                         Color(red: 243/255, green: 245/255, blue: 246/255),
@@ -31,7 +14,25 @@ struct ClickerView: View {
                     startPoint: .top,
                     endPoint: .bottom
                 )
-            )
+                .ignoresSafeArea()
+                VStack(spacing: 24) { // Space between title and buttons
+                    Text("Settings")
+                        .font(.system(size: 34, weight: .bold))
+                        .padding(.top, 40)
+                    
+                    VStack(spacing: 12) { // Gap between buttons
+                        SettingRow(title: "Rate Us")
+                        SettingRow(title: "Share App")
+                        SettingRow(title: "Contact Us")
+                        SettingRow(title: "Restore Purchases")
+                        SettingRow(title: "Privacy Policy")
+                        SettingRow(title: "Terms of Use")
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    Spacer()
+                }
+            }
         }
     }
 }
@@ -39,7 +40,7 @@ struct ClickerView: View {
 extension ClickerView {
     struct SettingRow: View {
         var title: String
-
+        
         var body: some View {
             NavigationLink(destination: SettingDetailView(title: title)) {
                 HStack {
@@ -63,17 +64,30 @@ extension ClickerView {
     
     struct SettingDetailView: View {
         var title: String
-
+        
         var body: some View {
-            VStack {
-                Spacer()
-                Text(title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                Spacer()
+            ZStack {
+                // Background gradient
+                LinearGradient(
+                    colors: [
+                        Color(red: 243/255, green: 245/255, blue: 246/255),
+                        Color(red: 201/255, green: 255/255, blue: 224/255)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                
+                VStack {
+                    Spacer()
+                    Text(title)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    Spacer()
+                }
+                .navigationTitle(title)
+                .navigationBarTitleDisplayMode(.inline)
             }
-            .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
